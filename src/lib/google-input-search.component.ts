@@ -119,7 +119,6 @@ export class GoogleInputSearchComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       inputEvent$.pipe(
         map(value => value.trim()),
-        filter(value => Boolean(value)),
         debounce(() => timer(this.debounceTime)),
         distinctUntilChanged(),
       ).subscribe(value => this.queryPredictions(value))
@@ -137,7 +136,6 @@ export class GoogleInputSearchComponent implements OnInit, OnDestroy {
         this.searchLoading.emit(false);
       })
     ).subscribe((predictions) => {
-      console.log(predictions);
       this.searchResult.emit(predictions);
     });
 

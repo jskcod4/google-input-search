@@ -46,6 +46,19 @@ Input html file:
 <lib-google-input-search></lib-google-input-search>
 ```
 
+## Api Reference
+
+### Google Search Input Component 
+
+| Name                   | Type    | Description                                                                   |Default|
+|------------------------|---------|-------------------------------------------------------------------------------|-------|
+| hostClass              | @Input  | Whether the host class for this element is active                             | true  |
+| placeholder            | @Input  | Placeholder text for input                                                    | empty |
+| debounceTime           | @Input  | Time debounce to search                                                       | 450ms |
+| searchInput            | @Output | Channel to broadcast the input event of the search field                      | n/a   |
+| searchLoading          | @Output | Channel for charge status emission.                                           | n/a   |
+| searchResult           | @Output | Channel for broadcasting results found                                        | n/a   |
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

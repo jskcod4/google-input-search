@@ -29,6 +29,11 @@ export class GoogleSearchService {
     let obs$: Observable<QueryAutocompletePrediction[]>;
     if (this.cacheService.has(value)) {
       obs$ = this.cacheService.get(value, this.requestPrediction(value));
+    } else if (!value && !value.trim()) {
+      obs$ = new Observable<QueryAutocompletePrediction[]>(obs => {
+        obs.next([]);
+        obs.complete();
+      })
     } else {
       obs$ = this.requestPrediction(value).pipe(
         tap((predictions) => {
