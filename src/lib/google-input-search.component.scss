@@ -1,0 +1,46 @@
+:host {
+  --input-pd: 10px;
+  --input-height: 40px;
+  --input-font-family: Roboto, sans-serif;
+  --input-font-size: 14px;
+
+  --input-color-gray: rgb(181, 181, 181);
+  --input-color-gray-light: rgb(250, 250, 250);
+  --input-color-gray-dark: rgb(182, 182, 182);
+  --input-color-gray-darked: rgba(61, 61, 61);
+
+  --input-color-primary: rgb(56, 56, 230);
+  --input-color-primary-light: rgb(242, 246, 251);
+
+
+  &.google-input-search {
+    display: flex;
+    overflow: hidden;
+
+    .google-input {
+      font-family: var(--input-font-family);
+      font-size: var(--input-font-size);
+      font-weight: 400;
+      width: 100%;
+      max-width: 100%;
+      max-height: var(--input-height);
+      padding: var(--input-pd);
+      color: var(--input-color-gray-darked);
+      border: 1px solid var(--input-color-gray);
+      outline: none;
+      border-radius: 0;
+
+      &:active,
+      &:focus {
+        border: 1px solid var(--input-color-primary);
+        outline: none;
+        box-shadow: none;
+      }
+
+      &::placeholder {
+        color: var(--input-color-gray-dark);
+      }
+
+    }
+  }
+}
