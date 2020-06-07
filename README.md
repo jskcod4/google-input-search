@@ -2,6 +2,8 @@
 
 Google Input Search is a location finder based on the google predictions search engine.
 
+![Demo Google Input Search](https://github.com/joserozsil/google-input-search/blob/master/google-input-search-demo.gif)
+
 ## Installation
 
 Use the package manager [npm](https://www.npmjs.com/) to install Google Input Search.
