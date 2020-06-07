@@ -33,7 +33,7 @@ export class GoogleSearchService {
       obs$ = new Observable<QueryAutocompletePrediction[]>(obs => {
         obs.next([]);
         obs.complete();
-      })
+      });
     } else {
       obs$ = this.requestPrediction(value).pipe(
         tap((predictions) => {
