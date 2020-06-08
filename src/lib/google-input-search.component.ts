@@ -26,7 +26,8 @@ import {
   map,
 } from 'rxjs/operators';
 
-import {GoogleSearchService} from './google-search.service';
+import { GoogleSearchService } from './google-search.service';
+import { GoogleInputSearch } from './google-input-search';
 
 import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePrediction;
 
@@ -43,37 +44,31 @@ import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePredict
     './google-input-search.component.scss'
   ]
 })
-export class GoogleInputSearchComponent implements OnInit, OnDestroy {
+export class GoogleInputSearchComponent extends GoogleInputSearch implements OnInit, OnDestroy {
   /**
    * Ref input element
    */
-  @ViewChild('inputSearch', { static: true })
   searchElement: ElementRef<HTMLInputElement>;
 
   /**
    * Host class by default is true
    * If you want to disable the default styles set to false
    */
-  @Input()
-  @HostBinding('class.google-input-search')
   hostClass = true;
 
   /**
    * Placeholder input element
    */
-  @Input()
   placeholder = '';
 
   /**
    * Time debounce to search
    */
-  @Input()
   debounceTime = 450;
 
   /**
    * Channel to broadcast the input event of the search field
    */
-  @Output()
   searchInput = new EventEmitter<string>();
 
   /**
@@ -81,23 +76,23 @@ export class GoogleInputSearchComponent implements OnInit, OnDestroy {
    * If true, a search is being performed for the first time
    * If it is false the search has finished
    */
-  @Output()
   searchLoading = new EventEmitter<boolean>();
 
   /**
    * Channel for broadcasting results found
    */
-  @Output()
   searchResult = new EventEmitter<QueryAutocompletePrediction[]>();
 
   /**
-   * component subscriptions store
+   * Component subscriptions store
    */
-  private subscriptions = new Subscription();
+  subscriptions = new Subscription();
 
   constructor(
     private googleService: GoogleSearchService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.watchInputEvents();
@@ -111,7 +106,7 @@ export class GoogleInputSearchComponent implements OnInit, OnDestroy {
    * Allows you to subscribe to the input event
    * And communicate with the service
    */
-  private watchInputEvents() {
+  watchInputEvents() {
     const inputEvent$ = fromEvent(this.searchElement.nativeElement, 'input').pipe(
       map((evt) => (evt.target as HTMLTextAreaElement).value),
     );
@@ -128,10 +123,10 @@ export class GoogleInputSearchComponent implements OnInit, OnDestroy {
   /**
    * Communication manager with search service
    */
-  private queryPredictions(input: string) {
+  queryPredictions(query: string) {
     this.searchLoading.emit(true);
 
-    const searchObs$ = this.googleService.getQuery(input).pipe(
+    const searchObs$ = this.googleService.getQuery(query).pipe(
       finalize(() => {
         this.searchLoading.emit(false);
       })

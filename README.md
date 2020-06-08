@@ -27,7 +27,7 @@ In your index.html:
 </head>
 ```
 
-## Usage
+## Usage as component
 
 In your module:
 ```ts
@@ -48,9 +48,29 @@ Input html file:
 <lib-google-input-search></lib-google-input-search>
 ```
 
+## Usage as directive
+In your module:
+```ts
+import { NgModule } from '@angular/core';
+import { GoogleInputSearchModule } from 'google-input-search';
+
+@NgModule({
+  imports: [
+    GoogleInputSearchModule
+  ]
+})
+export class MyModule { }
+```
+
+Input html file:
+
+```html
+<input libGoogleSearch>
+```
+
 ## Api Reference
 
-### Google Search Input Component 
+### Google Search Input Component
 
 | Name                   | Type    | Description                                                                   |Default|
 |------------------------|---------|-------------------------------------------------------------------------------|-------|
@@ -60,6 +80,13 @@ Input html file:
 | searchInput            | @Output | Channel to broadcast the input event of the search field                      | string                           |
 | searchLoading          | @Output | Channel for charge status emission.                                           | boolean                          |
 | searchResult           | @Output | Channel for broadcasting results found                                        | QueryAutocompletePrediction[]    |
+
+### Google Search Input Directive
+
+| Name                   | Type    | Description                                                                   |Default|
+|------------------------|---------|-------------------------------------------------------------------------------|-------|
+| searchResult           | @Output | Channel for broadcasting results found                                        | QueryAutocompletePrediction[]    |
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 
 import { GoogleInputSearchComponent } from './google-input-search.component';
+import { GoogleSearchDirective } from './google-search.directive';
 
 
 @NgModule({
   declarations: [
-    GoogleInputSearchComponent
+    GoogleInputSearchComponent,
+    GoogleSearchDirective
   ],
   imports: [
   ],
   exports: [
-    GoogleInputSearchComponent
+    GoogleInputSearchComponent,
+    GoogleSearchDirective
   ]
 })
 export class GoogleInputSearchModule { }
