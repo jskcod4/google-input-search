@@ -12,7 +12,6 @@
   --input-color-primary: rgb(56, 56, 230);
   --input-color-primary-light: rgb(242, 246, 251);
 
-
   &.google-input-search {
     display: flex;
     overflow: hidden;
@@ -40,7 +39,6 @@
       &::placeholder {
         color: var(--input-color-gray-dark);
       }
-
     }
   }
 }

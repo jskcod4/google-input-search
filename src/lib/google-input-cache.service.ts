@@ -1,15 +1,10 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Observable,
-  of,
-  Subject,
-  throwError
-} from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 
-import {tap} from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-import {CacheContent} from './google-input-search';
+import { CacheContent } from './google-input-search';
 
 /**
  * Cache Service is an observables based in-memory cache implementation
@@ -17,11 +12,14 @@ import {CacheContent} from './google-input-search';
  * Source: https://hackernoon.com/angular-simple-in-memory-cache-service-on-the-ui-with-rxjs-77f167387e39
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CacheService {
   private cache: Map<string, CacheContent> = new Map<string, CacheContent>();
-  private inFlightObservables: Map<string, Subject<any>> = new Map<string, Subject<any>>();
+  private inFlightObservables: Map<string, Subject<any>> = new Map<
+    string,
+    Subject<any>
+  >();
   readonly DEFAULT_MAX_AGE: number = 300000;
 
   /**
@@ -30,8 +28,11 @@ export class CacheService {
    * in flight, if so return the subject. If not create a new
    * Subject inFlightObservable and return the source observable.
    */
-  get<T>(key: string, fallback?: Observable<T>, maxAge?: number): Observable<T> | Subject<T> {
-
+  get<T>(
+    key: string,
+    fallback?: Observable<T>,
+    maxAge?: number
+  ): Observable<T> | Subject<T> {
     if (this.hasValidCachedValue(key)) {
       const value = this.cache.get(key).value;
       return of(value);
@@ -45,13 +46,10 @@ export class CacheService {
       return this.inFlightObservables.get(key);
     } else if (fallback && fallback instanceof Observable) {
       this.inFlightObservables.set(key, new Subject());
-      return fallback.pipe(
-        tap(value => this.set(key, value, maxAge))
-      );
+      return fallback.pipe(tap((value) => this.set(key, value, maxAge)));
     } else {
       return throwError('Requested key is not available in Cache');
     }
-
   }
 
   /**
@@ -61,7 +59,7 @@ export class CacheService {
   set<T>(key: string, value: T, maxAge: number = this.DEFAULT_MAX_AGE): void {
     this.cache.set(key, {
       value: value,
-      expiry: Date.now() + maxAge
+      expiry: Date.now() + maxAge,
     });
 
     this.notifyInFlightObservers(key, value);

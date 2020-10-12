@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Observable, Subject} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-import {CacheService} from './google-input-cache.service';
+import { CacheService } from './google-input-cache.service';
 
 import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePrediction;
 
@@ -12,14 +12,12 @@ import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePredict
  * Based on Google's Autocomplete Service
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoogleSearchService {
   private service = new google.maps.places.AutocompleteService();
 
-  constructor(
-    private cacheService: CacheService
-  ) {}
+  constructor(private cacheService: CacheService) {}
 
   /**
    * Get the prediction based on google's Autocomplete Service.
@@ -30,14 +28,14 @@ export class GoogleSearchService {
     if (this.cacheService.has(value)) {
       obs$ = this.cacheService.get(value, this.requestPrediction(value));
     } else if (!value && !value.trim()) {
-      obs$ = new Observable<QueryAutocompletePrediction[]>(obs => {
+      obs$ = new Observable<QueryAutocompletePrediction[]>((obs) => {
         obs.next([]);
         obs.complete();
       });
     } else {
       obs$ = this.requestPrediction(value).pipe(
         tap((predictions) => {
-          this.cacheService.set(value, predictions)
+          this.cacheService.set(value, predictions);
         })
       );
     }
@@ -47,7 +45,9 @@ export class GoogleSearchService {
   /**
    * Make the google getQueryPredictions() method observable
    */
-  private requestPrediction(input: string): Observable<QueryAutocompletePrediction[]> {
+  private requestPrediction(
+    input: string
+  ): Observable<QueryAutocompletePrediction[]> {
     const obs$ = new Subject<QueryAutocompletePrediction[]>();
     this.service.getQueryPredictions({ input }, (predictions, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -59,5 +59,4 @@ export class GoogleSearchService {
     });
     return obs$.asObservable();
   }
-
 }

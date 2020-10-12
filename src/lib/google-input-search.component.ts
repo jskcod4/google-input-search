@@ -4,27 +4,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostBinding,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild
 } from '@angular/core';
 
-import {
-  fromEvent,
-  Subscription,
-  timer
-} from 'rxjs';
+import { fromEvent, Subscription, timer } from 'rxjs';
 
-import {
-  debounce,
-  distinctUntilChanged,
-  filter,
-  finalize,
-  map,
-} from 'rxjs/operators';
+import { debounce, distinctUntilChanged, finalize, map } from 'rxjs/operators';
 
 import { GoogleSearchService } from './google-search.service';
 import { GoogleInputSearch } from './google-input-search';
@@ -38,13 +24,14 @@ import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePredict
       #inputSearch
       type="text"
       class="google-input"
-      [placeholder]="placeholder">
+      [placeholder]="placeholder"
+    />
   `,
-  styleUrls: [
-    './google-input-search.component.scss'
-  ]
+  styleUrls: ['./google-input-search.component.scss'],
 })
-export class GoogleInputSearchComponent extends GoogleInputSearch implements OnInit, OnDestroy {
+export class GoogleInputSearchComponent
+  extends GoogleInputSearch
+  implements OnInit, OnDestroy {
   /**
    * Ref input element
    */
@@ -88,9 +75,7 @@ export class GoogleInputSearchComponent extends GoogleInputSearch implements OnI
    */
   subscriptions = new Subscription();
 
-  constructor(
-    private googleService: GoogleSearchService
-  ) {
+  constructor(private googleService: GoogleSearchService) {
     super();
   }
 
@@ -107,16 +92,19 @@ export class GoogleInputSearchComponent extends GoogleInputSearch implements OnI
    * And communicate with the service
    */
   watchInputEvents() {
-    const inputEvent$ = fromEvent(this.searchElement.nativeElement, 'input').pipe(
-      map((evt) => (evt.target as HTMLTextAreaElement).value),
-    );
+    const inputEvent$ = fromEvent(
+      this.searchElement.nativeElement,
+      'input'
+    ).pipe(map((evt) => (evt.target as HTMLTextAreaElement).value));
 
     this.subscriptions.add(
-      inputEvent$.pipe(
-        map(value => value.trim()),
-        debounce(() => timer(this.debounceTime)),
-        distinctUntilChanged(),
-      ).subscribe(value => this.queryPredictions(value))
+      inputEvent$
+        .pipe(
+          map((value) => value.trim()),
+          debounce(() => timer(this.debounceTime)),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => this.queryPredictions(value))
     );
   }
 
@@ -126,15 +114,17 @@ export class GoogleInputSearchComponent extends GoogleInputSearch implements OnI
   queryPredictions(query: string) {
     this.searchLoading.emit(true);
 
-    const searchObs$ = this.googleService.getQuery(query).pipe(
-      finalize(() => {
-        this.searchLoading.emit(false);
-      })
-    ).subscribe((predictions) => {
-      this.searchResult.emit(predictions);
-    });
+    const searchObs$ = this.googleService
+      .getQuery(query)
+      .pipe(
+        finalize(() => {
+          this.searchLoading.emit(false);
+        })
+      )
+      .subscribe((predictions) => {
+        this.searchResult.emit(predictions);
+      });
 
     this.subscriptions.add(searchObs$);
   }
-
 }

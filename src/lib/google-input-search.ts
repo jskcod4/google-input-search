@@ -4,13 +4,10 @@ import {
   ElementRef,
   ViewChild,
   Input,
-  HostBinding
+  HostBinding,
 } from '@angular/core';
 
-import {
-  Subscription,
-} from 'rxjs';
-
+import { Subscription } from 'rxjs';
 
 import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePrediction;
 

@@ -1,18 +1,8 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter } from '@angular/core';
 
-import {
-  fromEvent,
-  Subscription
-} from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 
-import {
-  map,
-  distinctUntilChanged,
-} from 'rxjs/operators';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 import { GoogleDirectiveSearch } from './google-input-search';
 
@@ -20,9 +10,8 @@ import { GoogleSearchService } from './google-search.service';
 
 import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePrediction;
 
-
 @Directive({
-  selector: '[libGoogleSearch]'
+  selector: '[libGoogleSearch]',
 })
 export class GoogleSearchDirective extends GoogleDirectiveSearch {
   /**
@@ -57,14 +46,17 @@ export class GoogleSearchDirective extends GoogleDirectiveSearch {
   }
 
   watchInputEvents() {
-    const inputEvent$ = fromEvent(this.searchElement.nativeElement, 'input').pipe(
-      map((evt) => (evt.target as HTMLTextAreaElement).value),
-    );
+    const inputEvent$ = fromEvent(
+      this.searchElement.nativeElement,
+      'input'
+    ).pipe(map((evt) => (evt.target as HTMLTextAreaElement).value));
     this.subscriptions.add(
-      inputEvent$.pipe(
-        map(value => value.trim()),
-        distinctUntilChanged(),
-      ).subscribe(value => this.queryPredictions(value))
+      inputEvent$
+        .pipe(
+          map((value) => value.trim()),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => this.queryPredictions(value))
     );
   }
 
@@ -75,5 +67,4 @@ export class GoogleSearchDirective extends GoogleDirectiveSearch {
       })
     );
   }
-
 }
