@@ -1,7 +1,7 @@
 {
   "name": "google-input-search",
   "description": "Google Input Search is a location finder based on the google predictions search engine.",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "author": "José Silva",
   "repository": {
     "type": "git",
