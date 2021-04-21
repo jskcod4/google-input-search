@@ -11,7 +11,7 @@ import { GoogleSearchService } from './google-search.service';
 import QueryAutocompletePrediction = google.maps.places.QueryAutocompletePrediction;
 
 @Directive({
-  selector: '[libGoogleSearch]',
+  selector: '[libGoogleSearch], [googleSearch], [inputGoogleSearch]',
 })
 export class GoogleSearchDirective extends GoogleDirectiveSearch {
   /**
